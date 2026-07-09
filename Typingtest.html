@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omega Classroom Typing Academy 🚀</title>
+    <style>
+        :root {
+            --bg-gradient: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+            --panel-bg: #1e293b;
+            --panel-border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: #0f172a;
+            --key-bg: #1e293b;
+            --key-text: #94a3b8;
+            --primary: #4a90e2;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --accent: #f1c40f;
+            --neon-blue: #00f2fe;
+            --neon-pink: #4facfe;
+        }
+
+        .light-mode {
+            --bg-gradient: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            --panel-bg: #ffffff;
+            --panel-border: #cbd5e1;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --input-bg: #f8fafc;
+            --key-bg: #f1f5f9;
+            --key-text: #475569;
+            --primary: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --accent: #f59e0b;
+            --neon-blue: #2563eb;
+            --neon-pink: #db2777;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* 10x Extreme Screen Shake Animation */
+        @keyframes extreme-shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-4px, 3px) rotate(-1deg); }
+            20% { transform: translate(4px, -2px) rotate(1deg); }
+            30% { transform: translate(-5px, -1px) rotate(-1.5deg); }
+            40% { transform: translate(3px, 3px) rotate(0deg); }
+            50% { transform: translate(-2px, -3px) rotate(1deg); }
+            60% { transform: translate(4px, 2px) rotate(-1deg); }
+            70% { transform: translate(-3px, 1px) rotate(1.5deg); }
+            80% { transform: translate(2px, -2px) rotate(-1deg); }
+            90% { transform: translate(-1px, 4px) rotate(0deg); }
+        }
+
+        .shake-active {
+            animation: extreme-shake 0.1s infinite !important;
+        }
+
+        /* Hyper Mode Background Glow Pulse */
+        @keyframes hyper-pulse {
+            0% { box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(255, 0, 127, 0.2); }
+            100% { box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(255, 0, 127, 0.7); }
+        }
+
+        .hyper-mode-active {
+            animation: hyper-pulse 0.2s infinite alternate !important;
+            border-color: #ff007f !important;
+        }
+
+        .game-wrapper {
+            display: flex;
+            gap: 20px;
+            max-width: 1250px;
+            width: 100%;
+            position: relative;
+        }
+
+        .container {
+            background: var(--panel-bg);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            flex-grow: 1;
+            text-align: center;
+            position: relative;
+            border: 2px solid var(--panel-border);
+            transition: background 0.3s, border 0.3s;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            font-size: 2.4rem;
+            letter-spacing: 1px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: transform 0.2s, background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-btn:hover {
+            transform: rotate(45deg) scale(1.1);
+            background: rgba(0,0,0,0.1);
+        }
+
+        .controls-panel {
+            background: rgba(0,0,0,0.15);
+            padding: 12px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9rem;
+            border: 1px solid var(--panel-border);
+            flex-wrap: wrap;
+        }
+
+        select, input[type="text"] {
+            background: var(--input-bg);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--panel-border);
+            outline: none;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid var(--panel-border);
+        }
+
+        .stat-box {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 2.3rem;
+            color: var(--text-main);
+            display: block;
+            font-weight: bold;
+        }
+
+        .streak-meter {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: transform 0.1s ease;
+        }
+
+        .hyper-text {
+            color: #ff007f !important;
+            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f;
+            animation: pulse 0.2s infinite alternate;
+        }
+
+        .text-display {
+            font-size: 1.8rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 25px;
+            background: var(--input-bg);
+            border-radius: 16px;
+            border: 2px solid var(--panel-border);
+            min-height: 80px;
+            user-select: none;
+            text-align: left;
+        }
+
+        .text-display span {
+            position: relative;
+            display: inline-block;
+            white-space: pre-wrap;
+            transition: transform 0.1s ease, text-shadow 0.1s ease;
+        }
+
+        .correct { 
+            color: var(--success); 
+            text-shadow: 0 0 8px var(--success);
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .incorrect { 
+            color: var(--error); 
+            background: rgba(231, 76, 60, 0.25);
+            text-shadow: 0 0 8px var(--error);
+            animation: glitch 0.1s infinite;
+        }
+
+        .current { 
+            background-color: rgba(0, 242, 254, 0.25);
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        textarea {
+            width: 100%;
+            height: 90px;
+            font-size: 1.4rem;
+            padding: 15px;
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            resize: none;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 25px;
+            background: rgba(0,0,0,0.15);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid var(--panel-border);
+        }
+        .keyboard-row { display: flex; justify-content: center; gap: 6px; }
+        .key {
+            background: var(--key-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 6px;
+            padding: 10px;
+            min-width: 32px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--key-text);
+            text-transform: uppercase;
+            transition: all 0.1s ease;
+        }
+        .key-active {
+            background: var(--neon-blue) !important;
+            color: white !important;
+            box-shadow: 0 0 15px var(--neon-blue);
+            transform: scale(0.9);
+        }
+
+        .sidebar {
+            background: var(--panel-bg);
+            width: 280px;
+            padding: 25px;
+            border-radius: 24px;
+            border: 2px solid var(--panel-border);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar h2 {
+            margin: 0;
+            color: var(--accent);
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--panel-border);
+            padding-bottom: 10px;
+        }
+        .data-list { list-style: none; padding: 0; margin: 0; }
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--panel-border);
+            font-size: 0.95rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal {
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 100%;
+            color: var(--text-main);
+        }
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1; transition: .4s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        .btn-container { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        button {
+            background: linear-gradient(135deg, var(--neon-pink) 0%, var(--primary) 100%);
+            color: white; border: none; padding: 12px 30px; font-size: 1.1rem;
+            font-weight: bold; border-radius: 12px; cursor: pointer; transition: all 0.2s ease;
+        }
+        button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        button.secondary-btn { background: #64748b; }
+        button.danger-btn { background: #e74c3c; }
+
+        #particleCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        
+        @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+        @keyframes glitch {
+            0% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, -1px); }
+            100% { transform: translate(0, 0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-wrapper" id="shakeWrapper">
+    <div class="container" id="gameContainer">
+        <canvas id="particleCanvas"></canvas>
+        
+        <div class="header-container">
+            <h1>Omega Typing Academy 🚀</h1>
+            <button class="icon-btn" id="settingsBtn" title="Settings Menu">⚙️</button>
+        </div>
+        
+        <div class="controls-panel">
+            <label>⏱️ Window:</label>
+            <select id="timeSelect">
+                <option value="15">15s</option>
+                <option value="30" selected>30s</option>
+                <option value="60">60s</option>
+            </select>
+            
+            <label>✏️ Override:</label>
+            <input type="text" id="customSentence" placeholder="Add unique phrase here...">
+            
+            <select id="customDuration">
+                <option value="once">Next Match Only</option>
+                <option value="always">All Matches</option>
+            </select>
+            
+            <button id="applyCustomBtn" style="padding:6px 12px; font-size:0.85rem; margin:0;">Inject</button>
+            <button id="clearOverrideBtn" class="danger-btn" style="padding:6px 12px; font-size:0.85rem; margin:0; display:none;">Clear Overrides</button>
+        </div>
+
+        <div class="streak-meter" id="streakMeter">Combo Streak: 0 🔥</div>
+
+        <div class="stats-container">
+            <div class="stat-box">Time Remaining <span id="timer" class="stat-value">30s</span></div>
+            <div class="stat-box">Average Session WPM <span id="wpm" class="stat-value">0</span></div>
+            <div class="stat-box">Live Accuracy <span id="accuracy" class="stat-value">100%</span></div>
+        </div>
+
+        <div id="textDisplay" class="text-display">Initialize test run by clicking Start below...</div>
+        <textarea id="textInput" placeholder="System tracking offline..." disabled></textarea>
+        
+        <div class="keyboard">
+            <div class="keyboard-row" id="row1"></div>
+            <div class="keyboard-row" id="row2"></div>
+            <div class="keyboard-row" id="row3"></div>
+            <div class="keyboard-row"><div class="key" id="key-space" style="width: 250px;">Space</div></div>
+        </div>
+
+        <div class="btn-container">
+            <button id="actionBtn">Start Run</button>
+            <button id="resetBtn" class="secondary-btn">Reset Engine</button>
+        </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="sidebar">
+            <h2>🏆 Session Records</h2>
+            <ul class="data-list" id="scoreList"></ul>
+        </div>
+        
+        <div class="sidebar">
+            <h2>📊 Lifetime Academy Metrics</h2>
+            <ul class="data-list">
+                <li class="data-item"><span>Sentences:</span> <b id="lifeSentences">0</b></li>
+                <li class="data-item"><span>Words Typed:</span> <b id="lifeWords">0</b></li>
+                <li class="data-item"><span>Avg Accuracy:</span> <b id="lifeAccuracy">100%</b></li>
+            </ul>
+            <button id="clearLifeDataBtn" class="secondary-btn" style="padding:6px; font-size:0.8rem; margin:0; width:100%;">Clear Profile</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+        <h2 style="margin-top:0; border-bottom:1px solid var(--panel-border); padding-bottom:10px;">System Preferences</h2>
+        
+        <div class="setting-row">
+            <span>Dark Theme Display</span>
+            <label class="switch">
+                <input type="checkbox" id="themeToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-row">
+            <span>Immersive Audio Engine</span>
+            <label class="switch">
+                <input type="checkbox" id="audioToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-row">
+            <span>Dynamic Screen Shake</span>
+            <label class="switch">
+                <input type="checkbox" id="shakeToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <button id="closeModalBtn" style="width:100%; margin-top:15px;">Save & Apply</button>
+    </div>
+</div>
+
+<script>
+    const defaultSentences = [
+        "The quick brown fox jumps over the lazy dog.",
+        "To code or not to code, that is the ultimate question!",
+        "Super space rockets blast off into the galaxy with extreme power.",
+        "Always keep practicing your typing skills to unlock maximum speed.",
+        "Hackers use cool computers to secure networks and protect data files.",
+        "Patience and coding go hand in hand like cookies and milk.",
+        "A brilliant shining star illuminates the dark evening sky.",
+        "Dinosaurs ruled the Earth millions of years ago before vanishing.",
+        "Deep beneath the ocean waves, colorful coral reefs thrive.",
+        "Monkeys swing quickly from branch to branch in the wild jungle.",
+        "Video games combine creative art, storytelling, and computer engineering.",
+        "Reading interesting books expands your imagination and vocabulary skills.",
+        "Freshly baked chocolate chip cookies smell delicious straight out of the oven.",
+        "Robots are programmed to perform tasks with perfect scientific precision.",
+        "The majestic golden eagle soared gracefully over mountain peaks.",
+        "Lightning flashes vividly during intense summer thunderstorms.",
+        "Volcanoes erupt with molten hot lava and massive ash clouds.",
+        "Dolphins communicate using clever clicks and musical whistle sounds.",
+        "Superheroes fight villains to save innocent cities from absolute destruction.",
+        "Our solar system consists of eight distinct planets orbiting one sun.",
+        "Recycling plastic bottles protects vulnerable sea turtles in nature.",
+        "The wizard cast a powerful spell using a rare glowing wand.",
+        "Sailing ships navigated fierce oceans using paper maps and stars.",
+        "Learning a new foreign language connects you with diverse cultures.",
+        "Honeybees fly long distances to gather sweet nectar from garden flowers.",
+        "Music can elevate your mood and completely change your day.",
+        "Invention begins with a simple question and creative problem solving.",
+        "Koalas sleep inside eucalyptus trees for up to twenty hours daily.",
+        "Extreme athletes skateboard down steep ramps at incredible velocities.",
+        "Pyramids in Egypt stand tall as masterpieces of ancient engineering.",
+        "Computers process binary data using patterns of ones and zeros."
+    ];
+
+    // Separate tracking pools for custom lists so they never wipe each other out
+    let customOncePool = [];
+    let customAlwaysPool = [];
+    
+    // Tracks custom sentence usage counts dynamically during an active round
+    let customUsageCounter = {}; 
+
+    let timerDuration = 30;
+    let timeLeft = timerDuration;
+    let timer = null;
+    let isTestRunning = false;
+    let currentSentence = "";
+    let lastSentenceUsed = "";
+    
+    let runningCharsTypedThisMatch = 0;
+    let runningErrorsThisMatch = 0;
+    let totalKeystrokesInSession = 0;
+    let totalErrorsInSession = 0;
+    
+    let currentStreak = 0;
+    let sessionRuns = [];
+
+    let preferences = JSON.parse(localStorage.getItem('typingPrefs')) || { darkTheme: true, audio: true, shake: true };
+    let lifetimeStats = JSON.parse(localStorage.getItem('typingLifetime')) || { sentences: 0, words: 0, totalKeystrokes: 0, totalErrors: 0 };
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playAudioTone(freq, type, duration, gainStart) {
+        if (!preferences.audio || audioCtx.state === 'suspended') return;
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+        osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(gainStart, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.start(); osc.stop(audioCtx.currentTime + duration);
+    }
+
+    const shakeWrapper = document.getElementById('shakeWrapper');
+    const gameContainer = document.getElementById('gameContainer');
+    const textDisplay = document.getElementById('textDisplay');
+    const textInput = document.getElementById('textInput');
+    const timerDisplay = document.getElementById('timer');
+    const wpmDisplay = document.getElementById('wpm');
+    const accuracyDisplay = document.getElementById('accuracy');
+    const actionBtn = document.getElementById('actionBtn');
+    const streakMeter = document.getElementById('streakMeter');
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const rows = [["q","w","e","r","t","y","u","i","o","p"], ["a","s","d","f","g","h","j","k","l"], ["z","x","c","v","b","n","m"]];
+    rows.forEach((r, idx) => {
+        const target = document.getElementById(`row${idx+1}`);
+        r.forEach(k => target.innerHTML += `<div class="key" id="key-${k}">${k}</div>`);
+    });
+
+    let particles = [];
+    function resizeCanvas() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    function setSentence() {
+        // Compile full master sentence deck
+        let totalActiveDeck = [...defaultSentences, ...customOncePool, ...customAlwaysPool];
+        
+        // Filter out items that have already hit their 2-generation limit for this specific match window
+        let validDeck = totalActiveDeck.filter(sentence => {
+            if (customUsageCounter[sentence] && customUsageCounter[sentence] >= 2) {
+                return false; 
+            }
+            return true;
+        });
+
+        // Fallback to defaults if custom options are fully locked out
+        if (validDeck.length === 0) {
+            validDeck = [...defaultSentences];
+        }
+
+        // Avoid immediate duplicates
+        let filtered = validDeck.filter(s => s !== lastSentenceUsed);
+        if (filtered.length === 0) filtered = validDeck;
+
+        let selectedSentence = filtered[Math.floor(Math.random() * filtered.length)];
+
+        // Increment dynamic loop logs if it is an assigned custom phrase
+        if (customOncePool.includes(selectedSentence) || customAlwaysPool.includes(selectedSentence)) {
+            customUsageCounter[selectedSentence] = (customUsageCounter[selectedSentence] || 0) + 1;
+        }
+
+        currentSentence = selectedSentence;
+        lastSentenceUsed = currentSentence;
+        
+        textDisplay.innerHTML = '';
+        currentSentence.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.innerText = char;
+            textDisplay.appendChild(span);
+        });
+    }
+
+    function startTest() {
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+        isTestRunning = true;
+        timerDuration = parseInt(document.getElementById('timeSelect').value);
+        timeLeft = timerDuration;
+        
+        runningCharsTypedThisMatch = 0;
+        runningErrorsThisMatch = 0;
+        totalKeystrokesInSession = 0;
+        totalErrorsInSession = 0;
+        currentStreak = 0;
+        customUsageCounter = {}; // Clear previous match restriction counters
+        
+        textInput.value = ''; textInput.disabled = false; textInput.focus();
+        actionBtn.innerText = "Halt Run";
+        setSentence(); updateFeedback();
+        clearInterval(timer);
+        timer = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+        if (timeLeft > 0) {
+            timeLeft--;
+            timerDisplay.innerText = timeLeft + "s";
+            calculateMetrics();
+        } else {
+            endTest();
+        }
+    }
+
+    function updateFeedback() {
+        const inputVal = textInput.value;
+        const inputChars = inputVal.split('');
+        const spanElements = textDisplay.querySelectorAll('span');
+        
+        let lastCharIdx = inputVal.length - 1;
+        let expectedChar = currentSentence[inputVal.length];
+        
+        document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+        if (expectedChar) {
+            let id = expectedChar.toLowerCase() === " " ? "space" : expectedChar.toLowerCase();
+            let keyNode = document.getElementById(`key-${id}`);
+            if (keyNode) keyNode.classList.add('key-active');
+        }
+
+        let errorsInThisSentenceSegment = 0;
+        let isCorrectHit = false;
+
+        spanElements.forEach((span, index) => {
+            const char = inputChars[index];
+            if (char == null) {
+                span.className = '';
+                if (index === inputVal.length) span.className = 'current';
+            } else if (char === span.innerText) {
+                if (span.className !== 'correct' && index === lastCharIdx) isCorrectHit = true;
+                span.className = 'correct';
+            } else {
+                span.className = 'incorrect';
+                errorsInThisSentenceSegment++;
+            }
+        });
+
+        if (isCorrectHit && errorsInThisSentenceSegment === 0) {
+            currentStreak++;
+            totalKeystrokesInSession++;
+            runningCharsTypedThisMatch++;
+            playAudioTone(500 + (currentStreak * 12), 'sine', 0.04, 0.08);
+            spawnSplineParticles();
+        } else if (inputVal.length > 0 && errorsInThisSentenceSegment > 0) {
+            if(currentStreak > 0) playAudioTone(130, 'sawtooth', 0.12, 0.15);
+            
+            if(preferences.shake) {
+                shakeWrapper.classList.add('shake-active');
+                setTimeout(() => shakeWrapper.classList.remove('shake-active'), 180);
+            }
+            totalKeystrokesInSession++;
+            totalErrorsInSession++;
+            currentStreak = 0;
+        }
+
+        if (currentStreak >= 20) {
+            streakMeter.className = "streak-meter hyper-text";
+            streakMeter.innerText = `💥 HYPER SPEEDWAY COMBO: ${currentStreak} ⚡`;
+            if(preferences.shake) gameContainer.classList.add('hyper-mode-active');
+        } else {
+            streakMeter.className = "streak-meter";
+            streakMeter.innerText = `Combo Streak: ${currentStreak} 🔥`;
+            gameContainer.classList.remove('hyper-mode-active');
+        }
+
+        if (inputVal === currentSentence) {
+            playAudioTone(880, 'triangle', 0.08, 0.1);
+            setTimeout(() => playAudioTone(1320, 'triangle', 0.15, 0.1), 60);
+            
+            lifetimeStats.sentences++;
+            lifetimeStats.words += (currentSentence.length / 5);
+            
+            textInput.value = '';
+            for(let i=0; i<45; i++) particles.push(new Particle(canvas.width/2, canvas.height/2, 'var(--accent)', true));
+            setSentence();
+            updateFeedback();
+        }
+    }
+
+    function calculateMetrics() {
+        const timeElapsed = timerDuration - timeLeft;
+        if (timeElapsed <= 0) return;
+
+        const globalWords = runningCharsTypedThisMatch / 5;
+        const calculatedWpm = Math.round(globalWords / (timeElapsed / 60));
+        wpmDisplay.innerText = calculatedWpm >= 0 && calculatedWpm !== Infinity ? calculatedWpm : 0;
+
+        if (totalKeystrokesInSession > 0) {
+            const liveAccuracy = Math.round(((totalKeystrokesInSession - totalErrorsInSession) / totalKeystrokesInSession) * 100);
+            accuracyDisplay.innerText = Math.max(0, liveAccuracy) + "%";
+        }
+    }
+
+    function endTest() {
+        clearInterval(timer);
+        isTestRunning = false;
+        textInput.disabled = true;
+        actionBtn.innerText = "Start Run";
+        gameContainer.classList.remove('hyper-mode-active');
+        
+        let finalWpm = parseInt(wpmDisplay.innerText);
+        let finalAcc = accuracyDisplay.innerText;
+        
+        if (finalWpm > 0) {
+            sessionRuns.push({ wpm: finalWpm, acc: finalAcc });
+            sessionRuns.sort((a,b) => b.wpm - a.wpm);
+            sessionRuns = sessionRuns.slice(0, 5);
+            
+            lifetimeStats.totalKeystrokes += totalKeystrokesInSession;
+            lifetimeStats.totalErrors += totalErrorsInSession;
+            localStorage.setItem('typingLifetime', JSON.stringify(lifetimeStats));
+            
+            renderInterfaceDashboards();
+        }
+
+        // Clean clear expiration target for single round prompts
+        if (customOncePool.length > 0) {
+            customOncePool = [];
+            updateOverrideUI();
+        }
+
+        textDisplay.innerHTML = `<strong style='color:var(--success); font-size:1.6rem; display:block; text-align:center;'>🏁 Engine Finish! Average Score: ${finalWpm} WPM! 🏁</strong>`;
+    }
+
+    function clearAllCustomOverrides() {
+        customOncePool = [];
+        customAlwaysPool = [];
+        updateOverrideUI();
+    }
+
+    function updateOverrideUI() {
+        if (customOncePool.length === 0 && customAlwaysPool.length === 0) {
+            document.getElementById('clearOverrideBtn').style.display = "none";
+        } else {
+            document.getElementById('clearOverrideBtn').style.display = "inline-block";
+        }
+    }
+
+    function renderInterfaceDashboards() {
+        const scoreList = document.getElementById('scoreList');
+        scoreList.innerHTML = sessionRuns.map((s, i) => `<li class="data-item"><span>#${i+1} Run Metrics:</span> <b>${s.wpm} WPM (${s.acc})</b></li>`).join('') || '<li class="data-item" style="color:var(--text-muted)">No metrics run parsed.</li>';
+        
+        document.getElementById('lifeSentences').innerText = lifetimeStats.sentences;
+        document.getElementById('lifeWords').innerText = Math.round(lifetimeStats.words);
+        
+        if (lifetimeStats.totalKeystrokes > 0) {
+            let finalAccuracyCalculation = Math.round(((lifetimeStats.totalKeystrokes - lifetimeStats.totalErrors) / lifetimeStats.totalKeystrokes) * 100);
+            document.getElementById('lifeAccuracy').innerText = Math.max(0, finalAccuracyCalculation) + "%";
+        } else {
+            document.getElementById('lifeAccuracy').innerText = "100%";
+        }
+    }
+
+    function applySystemThemeLayouts() {
+        document.body.classList.toggle('light-mode', !preferences.darkTheme);
+        document.getElementById('themeToggle').checked = preferences.darkTheme;
+        document.getElementById('audioToggle').checked = preferences.audio;
+        document.getElementById('shakeToggle').checked = preferences.shake;
+        localStorage.setItem('typingPrefs', JSON.stringify(preferences));
+    }
+
+    // --- Particle Engine ---
+    class Particle {
+        constructor(x, y, color, explode = false) {
+            this.x = x; this.y = y; this.color = color;
+            this.size = Math.random() * (explode ? 5 : 3) + 2;
+            this.speedX = explode ? (Math.random() * 12 - 6) : (Math.random() * 4 - 2);
+            this.speedY = explode ? (Math.random() * 12 - 6) : (Math.random() * -4 - 3);
+            this.gravity = 0.12; this.alpha = 1;
+        }
+        update() { this.x += this.speedX; this.y += this.speedY; this.speedY += this.gravity; this.alpha -= 0.02; }
+        draw() {
+            ctx.save(); ctx.globalAlpha = this.alpha; ctx.fillStyle = this.color;
+            ctx.shadowBlur = 10; ctx.shadowColor = this.color;
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+        }
+    }
+
+    function spawnSplineParticles() {
+        resizeCanvas();
+        let targetColors = ['#00f2fe', '#4facfe', '#ff007f', '#2ecc71', '#f1c40f'];
+        let pickedColor = currentStreak >= 20 ? '#ff007f' : targetColors[Math.floor(Math.random() * targetColors.length)];
+        for(let i=0; i<6; i++) particles.push(new Particle(canvas.width / 2 + (Math.random() * 260 - 130), canvas.height - 240, pickedColor));
+    }
+
+    function runAnimationPipeline() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update(); particles[i].draw();
+            if (particles[i].alpha <= 0) { particles.splice(i, 1); i--; }
+        }
+        requestAnimationFrame(runAnimationPipeline);
+    }
+    runAnimationPipeline();
+
+    // Event Listeners
+    textInput.addEventListener('input', () => { if (isTestRunning) { updateFeedback(); calculateMetrics(); } });
+    actionBtn.addEventListener('click', () => { if (!isTestRunning) startTest(); else endTest(); });
+    
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        clearInterval(timer); isTestRunning = false; textInput.value = ''; textInput.disabled = true;
+        actionBtn.innerText = "Start Run"; timerDisplay.innerText = document.getElementById('timeSelect').value + "s";
+        wpmDisplay.innerText = "0"; accuracyDisplay.innerText = "100%"; currentStreak = 0;
+        streakMeter.className = "streak-meter"; streakMeter.innerText = "Combo Streak: 0 🔥";
+        gameContainer.classList.remove('hyper-mode-active');
+        textDisplay.innerHTML = "Initialize test run by clicking Start below...";
+        document.querySelectorAll('.key').forEach(k => k.classList.remove('key-active'));
+    });
+
+    document.getElementById('timeSelect').addEventListener('change', () => document.getElementById('resetBtn').click());
+    
+    // Dynamic Multi-Prompt Multi-Match Injection Engine
+    document.getElementById('applyCustomBtn').addEventListener('click', () => {
+        const value = document.getElementById('customSentence').value.trim();
+        const duration = document.getElementById('customDuration').value;
+        
+        if(value) { 
+            if (duration === "once") {
+                if (!customOncePool.includes(value)) customOncePool.push(value);
+            } else {
+                if (!customAlwaysPool.includes(value)) customAlwaysPool.push(value);
+            }
+            updateOverrideUI();
+            document.getElementById('customSentence').value = ""; // Empty box so user can inject more right away
+            document.getElementById('resetBtn').click(); 
+            alert(`Injected! Total active custom phrases: ${customOncePool.length + customAlwaysPool.length}`); 
+        }
+    });
+
+    document.getElementById('clearOverrideBtn').addEventListener('click', () => {
+        clearAllCustomOverrides();
+        document.getElementById('resetBtn').click();
+        alert("All custom overrides purged successfully.");
+    });
+
+    // Preferences Modal Bindings
+    const overlay = document.getElementById('modalOverlay');
+    document.getElementById('settingsBtn').addEventListener('click', () => overlay.style.display = 'flex');
+    document.getElementById('closeModalBtn').addEventListener('click', () => overlay.style.display = 'none');
+    
+    document.getElementById('themeToggle').addEventListener('change', (e) => { preferences.darkTheme = e.target.checked; applySystemThemeLayouts(); });
+    document.getElementById('audioToggle').addEventListener('change', (e) => { preferences.audio = e.target.checked; applySystemThemeLayouts(); });
+    document.getElementById('shakeToggle').addEventListener('change', (e) => { preferences.shake = e.target.checked; applySystemThemeLayouts(); });
+
+    document.getElementById('clearLifeDataBtn').addEventListener('click', () => {
+        if(confirm("Are you sure you want to completely erase your lifetime statistics profile?")) {
+            lifetimeStats = { sentences: 0, words: 0, totalKeystrokes: 0, totalErrors: 0 };
+            localStorage.setItem('typingLifetime', JSON.stringify(lifetimeStats));
+            renderInterfaceDashboards();
+        }
+    });
+
+    applySystemThemeLayouts();
+    renderInterfaceDashboards();
+</script>
+</body>
+</html>
